@@ -19,7 +19,7 @@ Meteor.methods({
   'tasks.insert'(text) {
     check(text, String);
 
-    if (! this.userId) {
+    if (!this.userId) {
       throw new Meteor.Error('not-authorized');
     }
 
@@ -36,7 +36,7 @@ Meteor.methods({
     check(taskId, String);
 
     const task = Tasks.findOne(taskId);
-    if (task.owner !== Meteor.userId()) {
+    if (task.owner !== this.userId) {
       throw new Meteor.Error('not-authorized');
     }
 
@@ -48,7 +48,7 @@ Meteor.methods({
     check(setChecked, Boolean);
 
     const task = Tasks.findOne(taskId);
-    if (task.private && task.owner !== Meteor.userId()) {
+    if (task.private && task.owner !== this.userId()) {
       throw new Meteor.Error('not-authorized');
     }
 
