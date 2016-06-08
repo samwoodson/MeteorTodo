@@ -26,9 +26,12 @@ export default class Task extends Component {
     
     return (
       <li className={taskClassName}>
+      {this.props.showPrivateButton ? (
         <button className='delete' onClick={this.deleteThisTask.bind(this)}>
           &times;
         </button>
+      ) : ''}
+        
 
         <input
           type='checkbox'
