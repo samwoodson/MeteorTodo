@@ -12,11 +12,12 @@ Meteor.methods({
       throw new Meteor.Error('not-authorized');
     }
 
+    let $user = Meteor.users.findOne(this.userId)
     Tasks.insert({
       text,
       createdAt: new Date(),
       owner: this.userId,
-      username: Meteor.users.findOne(this.userId).username,
+      username: $user.username || $user.profile.name,
     });
   },
 
