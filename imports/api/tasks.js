@@ -4,6 +4,12 @@ import { check } from 'meteor/check';
 
 export const Tasks = new Mongo.Collection('tasks');
 
+if (Meteor.isServer) {
+  Meteor.publish('tasks', function tasksPublication() {
+    return Tasks.find();
+  });
+}
+
 Meteor.methods({
   'tasks.insert'(text) {
     check(text, String);
@@ -12,7 +18,7 @@ Meteor.methods({
       throw new Meteor.Error('not-authorized');
     }
 
-    let $user = Meteor.users.findOne(this.userId)
+    let $user = Meteor.users.findOne(this.userId);
     Tasks.insert({
       text,
       createdAt: new Date(),
